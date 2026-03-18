@@ -1,4 +1,3 @@
-using System.IO;
 using System.Windows;
 using Xabe.FFmpeg;
 using Xabe.FFmpeg.Downloader;
