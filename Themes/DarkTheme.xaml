@@ -92,13 +92,42 @@
 
     <!-- ===== COMBOBOX ===== -->
     <Style TargetType="ComboBox">
-        <Setter Property="Background"          Value="{StaticResource BgCard}"/>
-        <Setter Property="Foreground"          Value="{StaticResource TextPrimary}"/>
-        <Setter Property="BorderBrush"         Value="{StaticResource BorderBrush}"/>
-        <Setter Property="BorderThickness"     Value="1"/>
-        <Setter Property="Padding"             Value="8,5"/>
-        <Setter Property="FontSize"            Value="12"/>
-        <Setter Property="Height"              Value="32"/>
+        <Setter Property="Background"      Value="{StaticResource BgCard}"/>
+        <Setter Property="Foreground"      Value="{StaticResource TextPrimary}"/>
+        <Setter Property="BorderBrush"     Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding"         Value="8,5"/>
+        <Setter Property="FontSize"        Value="12"/>
+        <Setter Property="Height"          Value="32"/>
+    </Style>
+
+    <!-- ===== COMBOBOX ITEM (texte noir lisible) ===== -->
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="#FFFFFF"/>
+        <Setter Property="Foreground" Value="#111111"/>
+        <Setter Property="FontSize"   Value="12"/>
+        <Setter Property="Padding"    Value="10,6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="ItemBorder"
+                            Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="#E8F0FE"/>
+                            <Setter Property="Foreground" Value="#1A56DB"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="ItemBorder" Property="Background" Value="#DBEAFE"/>
+                            <Setter Property="Foreground" Value="#1D4ED8"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- ===== PROGRESS BAR ===== -->
