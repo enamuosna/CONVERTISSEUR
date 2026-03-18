@@ -1,0 +1,94 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "MXFConverter/1.0.0": {
+        "dependencies": {
+          "CommunityToolkit.Mvvm": "8.3.2",
+          "Xabe.FFmpeg": "5.2.6",
+          "Xabe.FFmpeg.Downloader": "5.2.6"
+        },
+        "runtime": {
+          "MXFConverter.dll": {}
+        }
+      },
+      "CommunityToolkit.Mvvm/8.3.2": {
+        "runtime": {
+          "lib/net8.0/CommunityToolkit.Mvvm.dll": {
+            "assemblyVersion": "8.3.0.0",
+            "fileVersion": "8.3.2.1"
+          }
+        }
+      },
+      "Newtonsoft.Json/9.0.1": {
+        "runtime": {
+          "lib/netstandard1.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1.19813"
+          }
+        }
+      },
+      "Xabe.FFmpeg/5.2.6": {
+        "dependencies": {
+          "Newtonsoft.Json": "9.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Xabe.FFmpeg.dll": {
+            "assemblyVersion": "5.2.6.0",
+            "fileVersion": "5.2.6.0"
+          }
+        }
+      },
+      "Xabe.FFmpeg.Downloader/5.2.6": {
+        "dependencies": {
+          "Xabe.FFmpeg": "5.2.6"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Xabe.FFmpeg.Downloader.dll": {
+            "assemblyVersion": "5.2.6.0",
+            "fileVersion": "5.2.6.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MXFConverter/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CommunityToolkit.Mvvm/8.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-m8EolE1A0Updj68WTsZSGI6VWb6mUqHPh7QFo0kt7+JPhYMNXRS1ch8TS/oITAdcxTLrwMOp3ku1KjeG1/Zdpg==",
+      "path": "communitytoolkit.mvvm/8.3.2",
+      "hashPath": "communitytoolkit.mvvm.8.3.2.nupkg.sha512"
+    },
+    "Newtonsoft.Json/9.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-U82mHQSKaIk+lpSVCbWYKNavmNH1i5xrExDEquU1i6I5pV6UMOqRnJRSlKO3cMPfcpp0RgDY+8jUXHdQ4IfXvw==",
+      "path": "newtonsoft.json/9.0.1",
+      "hashPath": "newtonsoft.json.9.0.1.nupkg.sha512"
+    },
+    "Xabe.FFmpeg/5.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AFT06eHAZ4OV3s6H2dZWeRQ6kkdWkY1dGq76iFprlOG6quB7V7Nm8wWhEF63As1txsh/8kwAbybtffrgqfQ0dg==",
+      "path": "xabe.ffmpeg/5.2.6",
+      "hashPath": "xabe.ffmpeg.5.2.6.nupkg.sha512"
+    },
+    "Xabe.FFmpeg.Downloader/5.2.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BmkE8QAYF6lo3E6J3ZvAoFt2JYGsGdGMGjHaVYI1wCN4rH4mwT4t2Ajo6Eh2+rAP+qccZFHTyf6+Hp+eYp5msg==",
+      "path": "xabe.ffmpeg.downloader/5.2.6",
+      "hashPath": "xabe.ffmpeg.downloader.5.2.6.nupkg.sha512"
+    }
+  }
+}
