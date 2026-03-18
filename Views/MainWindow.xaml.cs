@@ -26,7 +26,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     }
 
     private string _outputDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-    private bool _isConverting = false;
 
     public MainWindow()
     {
@@ -138,15 +137,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             return;
         }
 
-        _isConverting = true;
         BtnConvertAll.IsEnabled = false;
         SetStatus($"Conversion de {pending.Count} fichier(s)...");
 
-        // Conversion séquentielle (pour éviter la surcharge CPU)
         foreach (var item in pending)
             await ConvertItemAsync(item);
 
-        _isConverting = false;
         BtnConvertAll.IsEnabled = true;
         RefreshSummary();
         SetStatus("Toutes les conversions sont terminées.");

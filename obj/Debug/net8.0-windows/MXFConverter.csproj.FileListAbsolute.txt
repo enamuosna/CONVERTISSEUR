@@ -1,0 +1,8 @@
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\MXFConverter.csproj.AssemblyReference.cache
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Themes\DarkTheme.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\App.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\MXFConverter_MarkupCompile.cache
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\MXFConverter_MarkupCompile.lref
