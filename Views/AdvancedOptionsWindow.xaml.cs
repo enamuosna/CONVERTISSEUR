@@ -17,6 +17,8 @@ public partial class AdvancedOptionsWindow : Window
 
         // Initialiser les listes
         CmbResolution.ItemsSource  = AdvancedOptions.Resolutions;
+        CmbWatermarkPos.ItemsSource   = AdvancedOptions.WatermarkPositions;
+        CmbWatermarkColor.ItemsSource = AdvancedOptions.WatermarkColors;
         CmbFramerate.ItemsSource   = AdvancedOptions.Framerates;
         CmbRotation.ItemsSource    = AdvancedOptions.Rotations;
 
@@ -41,6 +43,14 @@ public partial class AdvancedOptionsWindow : Window
         TxtTrimEnd.Text             = o.TrimEnd.ToString("F0");
         TrimGrid.Visibility         = o.EnableTrim ? Visibility.Visible : Visibility.Collapsed;
         ChkRemoveAudio.IsChecked    = o.RemoveAudio;
+        ChkWatermark.IsChecked      = o.EnableWatermark;
+        TxtWatermarkText.Text       = o.WatermarkText;
+        CmbWatermarkPos.SelectedItem  = o.WatermarkPos;
+        TxtWatermarkSize.Text       = o.WatermarkSize.ToString();
+        CmbWatermarkColor.SelectedItem = o.WatermarkColor;
+        SldOpacity.Value            = o.WatermarkOpacity;
+        TxtOpacityVal.Text          = $"{o.WatermarkOpacity * 100:F0}%";
+        WatermarkGrid.Visibility    = o.EnableWatermark ? Visibility.Visible : Visibility.Collapsed;
         CustomResGrid.Visibility    = o.Resolution == "Personnalisée" ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -61,6 +71,12 @@ public partial class AdvancedOptionsWindow : Window
             TrimStart           = double.TryParse(TxtTrimStart.Text, out var ts) ? ts : 0,
             TrimEnd             = double.TryParse(TxtTrimEnd.Text,   out var te) ? te : 0,
             RemoveAudio         = ChkRemoveAudio.IsChecked == true,
+            EnableWatermark     = ChkWatermark.IsChecked == true,
+            WatermarkText       = TxtWatermarkText.Text,
+            WatermarkPos        = CmbWatermarkPos.SelectedItem?.ToString() ?? "Bas-droite",
+            WatermarkSize       = int.TryParse(TxtWatermarkSize.Text, out var ws) ? ws : 24,
+            WatermarkColor      = CmbWatermarkColor.SelectedItem?.ToString() ?? "white",
+            WatermarkOpacity    = SldOpacity.Value,
         };
         DialogResult = true;
         Close();
@@ -82,4 +98,12 @@ public partial class AdvancedOptionsWindow : Window
     {
         if (e.LeftButton == MouseButtonState.Pressed) DragMove();
     }
+
+    private void ChkWatermark_Changed(object sender, System.Windows.RoutedEventArgs e)
+        => WatermarkGrid.Visibility = ChkWatermark.IsChecked == true
+            ? System.Windows.Visibility.Visible
+            : System.Windows.Visibility.Collapsed;
+
+    private void SldOpacity_Changed(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        => TxtOpacityVal.Text = $"{SldOpacity.Value * 100:F0}%";
 }

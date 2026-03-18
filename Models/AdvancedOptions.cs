@@ -61,6 +61,28 @@ public class AdvancedOptions : INotifyPropertyChanged
     private bool _removeAudio = false;
     public bool RemoveAudio { get => _removeAudio; set { _removeAudio = value; OnPropertyChanged(); } }
 
+
+    // ── Filigrane (Watermark) ──
+    private bool   _enableWatermark  = false;
+    private string _watermarkText    = "";
+    private string _watermarkPos     = "Bas-droite";
+    private int    _watermarkSize    = 24;
+    private string _watermarkColor   = "white";
+    private double _watermarkOpacity = 0.8;
+
+    public bool   EnableWatermark  { get => _enableWatermark;  set { _enableWatermark  = value; OnPropertyChanged(); } }
+    public string WatermarkText    { get => _watermarkText;    set { _watermarkText    = value; OnPropertyChanged(); } }
+    public string WatermarkPos     { get => _watermarkPos;     set { _watermarkPos     = value; OnPropertyChanged(); } }
+    public int    WatermarkSize    { get => _watermarkSize;    set { _watermarkSize    = value; OnPropertyChanged(); } }
+    public string WatermarkColor   { get => _watermarkColor;   set { _watermarkColor   = value; OnPropertyChanged(); } }
+    public double WatermarkOpacity { get => _watermarkOpacity; set { _watermarkOpacity = value; OnPropertyChanged(); } }
+
+    public static readonly string[] WatermarkPositions = {
+        "Haut-gauche", "Haut-centre", "Haut-droite",
+        "Centre", "Bas-gauche", "Bas-centre", "Bas-droite"
+    };
+    public static readonly string[] WatermarkColors = { "white", "black", "yellow", "red", "cyan" };
+
     // Listes de valeurs disponibles
     public static readonly string[] Resolutions = { "Original", "3840×2160 (4K)", "1920×1080 (FHD)", "1280×720 (HD)", "854×480 (SD)", "640×360", "Personnalisée" };
     public static readonly string[] Framerates  = { "Original", "60", "30", "25", "24", "15" };

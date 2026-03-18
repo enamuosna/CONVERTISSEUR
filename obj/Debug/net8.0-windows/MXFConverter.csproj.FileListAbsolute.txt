@@ -34,3 +34,13 @@ C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\SettingsW
 C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\AdvancedOptionsWindow.g.cs
 C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\HistoryWindow.g.cs
 C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\SettingsWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\MetadataWindow.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\NewProfileWindow.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\ProfilesWindow.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\SchedulerWindow.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\StatisticsWindow.baml
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\MetadataWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\NewProfileWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\ProfilesWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\SchedulerWindow.g.cs
+C:\Users\victus\Documents\CONVERTISSEUR\obj\Debug\net8.0-windows\Views\StatisticsWindow.g.cs

@@ -186,6 +186,80 @@
                         <CheckBox Grid.Column="1" x:Name="ChkRemoveAudio" VerticalAlignment="Center"/>
                     </Grid>
 
+                    <Separator/>
+
+                    <!-- Filigrane (Watermark) -->
+                    <TextBlock Text="FILIGRANE (WATERMARK)" Foreground="{StaticResource AccentBlue}"
+                               FontSize="10" FontWeight="Bold" Margin="0,8,0,12"/>
+
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Activer le filigrane texte" Foreground="{StaticResource TextPrimary}"
+                                   FontSize="13" VerticalAlignment="Center"/>
+                        <CheckBox Grid.Column="1" x:Name="ChkWatermark" VerticalAlignment="Center"
+                                  Checked="ChkWatermark_Changed" Unchecked="ChkWatermark_Changed"/>
+                    </Grid>
+
+                    <Grid x:Name="WatermarkGrid" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Texte -->
+                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="160"/></Grid.ColumnDefinitions>
+                            <TextBlock Text="Texte du filigrane" Foreground="{StaticResource TextPrimary}"
+                                       FontSize="12" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" x:Name="TxtWatermarkText" Text="© Mon Studio"
+                                     Background="{StaticResource BgCard}" Foreground="{StaticResource TextPrimary}"
+                                     BorderBrush="{StaticResource BorderBrush}" Padding="6,4" FontSize="12"/>
+                        </Grid>
+
+                        <!-- Position -->
+                        <Grid Grid.Row="1" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="160"/></Grid.ColumnDefinitions>
+                            <TextBlock Text="Position" Foreground="{StaticResource TextPrimary}"
+                                       FontSize="12" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" x:Name="CmbWatermarkPos" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Taille + Couleur -->
+                        <Grid Grid.Row="2" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/><ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="16"/><ColumnDefinition Width="90"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Taille (px) / Couleur" Foreground="{StaticResource TextPrimary}"
+                                       FontSize="12" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" x:Name="TxtWatermarkSize" Text="24"
+                                     Background="{StaticResource BgCard}" Foreground="{StaticResource TextPrimary}"
+                                     BorderBrush="{StaticResource BorderBrush}" Padding="6,4" FontSize="12"/>
+                            <TextBlock Grid.Column="2" Text="/" Foreground="{StaticResource TextMuted}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="3" x:Name="CmbWatermarkColor" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Opacité -->
+                        <Grid Grid.Row="3" Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="160"/></Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock Text="Opacit&#233;" Foreground="{StaticResource TextPrimary}" FontSize="12"/>
+                                <TextBlock x:Name="TxtOpacityVal" Text="80%"
+                                           Foreground="{StaticResource TextMuted}" FontSize="10"/>
+                            </StackPanel>
+                            <Slider Grid.Column="1" x:Name="SldOpacity"
+                                    Minimum="0" Maximum="1" Value="0.8" TickFrequency="0.1"
+                                    VerticalAlignment="Center"
+                                    ValueChanged="SldOpacity_Changed"/>
+                        </Grid>
+                    </Grid>
+
                 </StackPanel>
             </ScrollViewer>
 

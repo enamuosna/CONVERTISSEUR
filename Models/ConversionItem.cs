@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 
 namespace MXFConverter.Models;
 
@@ -16,6 +17,8 @@ public class ConversionItem : INotifyPropertyChanged
     private string           _eta           = "";
     private string           _speedText     = "";
     private DateTime         _startTime;
+    private BitmapImage?     _thumbnail;
+    private bool             _hasThumbnail;
 
     public string   Id              { get; set; } = Guid.NewGuid().ToString();
     public string   InputPath       { get; set; } = string.Empty;
@@ -28,8 +31,31 @@ public class ConversionItem : INotifyPropertyChanged
     public TimeSpan Duration        { get; set; }
     public string   DurationFormatted => Duration.ToString(@"hh\:mm\:ss");
     public string   VideoInfo       { get; set; } = string.Empty;
-    public AdvancedOptions Advanced { get; set; } = new();
+    public AdvancedOptions  Advanced  { get; set; } = new();
+    public VideoMetadata    Metadata  { get; set; } = new();
     public CancellationTokenSource? CancellationSource { get; set; }
+
+    // Taille cible (0 = pas de limite)
+    private long _targetSizeBytes = 0;
+    public long TargetSizeBytes
+    {
+        get => _targetSizeBytes;
+        set { _targetSizeBytes = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasTargetSize)); OnPropertyChanged(nameof(TargetSizeLabel)); }
+    }
+    public bool   HasTargetSize  => TargetSizeBytes > 0;
+    public string TargetSizeLabel => HasTargetSize ? FormatFileSize(TargetSizeBytes) : "Automatique";
+
+    // Miniature
+    public BitmapImage? Thumbnail
+    {
+        get => _thumbnail;
+        set { _thumbnail = value; OnPropertyChanged(); }
+    }
+    public bool HasThumbnail
+    {
+        get => _hasThumbnail;
+        set { _hasThumbnail = value; OnPropertyChanged(); }
+    }
 
     public string OutputFormat
     {
@@ -47,7 +73,6 @@ public class ConversionItem : INotifyPropertyChanged
         set { _progress = value; OnPropertyChanged(); OnPropertyChanged(nameof(ProgressText)); UpdateEta(); }
     }
     public string ProgressText => $"{Progress:F0}%";
-
     public string ETA
     {
         get => _eta;
@@ -58,7 +83,6 @@ public class ConversionItem : INotifyPropertyChanged
         get => _speedText;
         set { _speedText = value; OnPropertyChanged(); }
     }
-
     public ConversionStatus Status
     {
         get => _status;
@@ -96,7 +120,6 @@ public class ConversionItem : INotifyPropertyChanged
         ConversionStatus.Annulé     => "Annulé",
         _                           => ""
     };
-
     public bool CanConvert => Status is ConversionStatus.En_attente or ConversionStatus.Erreur or ConversionStatus.Annulé;
     public bool CanCancel  => Status == ConversionStatus.En_cours;
 
@@ -109,8 +132,9 @@ public class ConversionItem : INotifyPropertyChanged
         ETA = remaining > 0 ? $"~{TimeSpan.FromSeconds(remaining):mm\\:ss}" : "";
     }
 
-    private static string FormatFileSize(long b)
+    public static string FormatFileSize(long b)
     {
+        if (b <= 0) return "—";
         if (b < 1024) return $"{b} B";
         if (b < 1024 * 1024) return $"{b / 1024.0:F1} KB";
         if (b < 1024L * 1024 * 1024) return $"{b / (1024.0 * 1024):F1} MB";

@@ -1,0 +1,134 @@
+<Window x:Class="MXFConverter.Views.SchedulerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Planificateur — MXF Converter Pro"
+        Width="440" Height="380"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource BgPrimary}"
+        Foreground="{StaticResource TextPrimary}"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="56"/>
+            </Grid.RowDefinitions>
+
+            <!-- Titre -->
+            <Border Grid.Row="0" Background="{StaticResource BgSecondary}"
+                    CornerRadius="10,10,0,0" MouseLeftButtonDown="TitleBar_MouseDown">
+                <Grid Margin="16,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="&#x23F0;" FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Planifier la conversion" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Content="&#x2715;" HorizontalAlignment="Right" Width="32" Height="28"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource TextSecondary}" Cursor="Hand"
+                            Click="BtnClose_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- Contenu -->
+            <StackPanel Grid.Row="1" Margin="24,20">
+
+                <!-- Statut actuel -->
+                <Border x:Name="StatusBorder" Background="#1A2540" CornerRadius="8" Padding="14,10" Margin="0,0,0,20">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="StatusDot" Width="10" Height="10"
+                                 Fill="{StaticResource TextMuted}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock x:Name="TxtScheduleStatus"
+                                   Text="Aucune conversion planifi&#233;e"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="12"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Activation -->
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Activer le planificateur"
+                                   Foreground="{StaticResource TextPrimary}" FontSize="13" FontWeight="SemiBold"/>
+                        <TextBlock Text="Lance automatiquement toutes les conversions en attente"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <CheckBox x:Name="ChkEnable" Grid.Column="1" VerticalAlignment="Center"
+                              Checked="ChkEnable_Changed" Unchecked="ChkEnable_Changed"/>
+                </Grid>
+
+                <!-- Heure de départ -->
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Heure de d&#233;marrage"
+                                   Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                        <TextBlock Text="Format HH:mm"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <TextBox Grid.Column="1" x:Name="TxtTime" Text="22:00"
+                             Background="{StaticResource BgCard}" Foreground="{StaticResource TextPrimary}"
+                             BorderBrush="{StaticResource BorderBrush}"
+                             Padding="8,6" FontSize="16" FontWeight="SemiBold"
+                             TextAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Répétition -->
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="R&#233;p&#233;tition"
+                                   Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                        <TextBlock Text="Fr&#233;quence de planification"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" x:Name="CmbRepeat" VerticalAlignment="Center">
+                        <ComboBoxItem Content="Une seule fois" IsSelected="True"/>
+                        <ComboBoxItem Content="Chaque jour"/>
+                        <ComboBoxItem Content="Chaque semaine"/>
+                    </ComboBox>
+                </Grid>
+
+                <!-- Compte à rebours -->
+                <Border x:Name="CountdownBorder" Background="{StaticResource BgCard}"
+                        CornerRadius="8" Padding="14,10" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="D&#233;marrage dans : " Foreground="{StaticResource TextSecondary}" FontSize="12"/>
+                        <TextBlock x:Name="TxtCountdown" Text="--:--:--"
+                                   Foreground="{StaticResource AccentBlue}"
+                                   FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+
+            <!-- Boutons -->
+            <Border Grid.Row="2" Background="{StaticResource BgSecondary}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,10,10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            VerticalAlignment="Center" Margin="16,0">
+                    <Button Content="Annuler planification" Style="{StaticResource DangerButton}"
+                            Margin="0,0,8,0" Click="BtnCancelSchedule_Click"
+                            x:Name="BtnCancelSched"/>
+                    <Button Content="Planifier" Style="{StaticResource PrimaryButton}"
+                            Click="BtnSchedule_Click"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:models="clr-namespace:MXFConverter.Models"
         Title="MXF Converter Pro"
-        Width="1200" Height="720"
-        MinWidth="1000" MinHeight="600"
+        Width="1280" Height="760"
+        MinWidth="1050" MinHeight="620"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BgPrimary}"
         Foreground="{StaticResource TextPrimary}"
@@ -19,10 +19,14 @@
             <Setter Property="Height" Value="8"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        <Style x:Key="HeaderText" TargetType="TextBlock">
+        <Style x:Key="Hdr" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource TextMuted}"/>
             <Setter Property="FontSize"   Value="10"/>
             <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="IconBtn" TargetType="Button" BasedOn="{StaticResource SecondaryButton}">
+            <Setter Property="Padding" Value="9,6"/>
+            <Setter Property="FontSize" Value="13"/>
         </Style>
     </Window.Resources>
 
@@ -30,40 +34,60 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="48"/>
-                <RowDefinition Height="64"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- ===== BARRE DE TITRE ===== -->
+            <!-- ═══════ BARRE DE TITRE ═══════ -->
             <Border Grid.Row="0" Background="{StaticResource BgSecondary}"
                     CornerRadius="12,12,0,0" MouseLeftButtonDown="TitleBar_MouseDown">
                 <Grid Margin="16,0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Border Width="28" Height="28" Background="{StaticResource AccentBlue}"
-                                CornerRadius="6" Margin="0,0,12,0">
+                                CornerRadius="6" Margin="0,0,10,0">
                             <TextBlock Text="&#x25B6;" Foreground="White" FontSize="12"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <TextBlock Text="MXF Converter Pro"
-                                   Foreground="{StaticResource TextPrimary}"
                                    FontSize="14" FontWeight="SemiBold"
-                                   VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                   Foreground="{StaticResource TextPrimary}"
+                                   VerticalAlignment="Center" Margin="0,0,10,0"/>
                         <Border Background="#1A2540" CornerRadius="4" Padding="6,2">
-                            <TextBlock Text="v2.0" Foreground="{StaticResource AccentBlue}" FontSize="10"/>
+                            <TextBlock Text="v3.0" Foreground="{StaticResource AccentBlue}" FontSize="10"/>
+                        </Border>
+
+                        <!-- Planificateur actif badge -->
+                        <Border x:Name="ScheduleBadge" Background="#14532D" CornerRadius="4"
+                                Padding="8,2" Margin="10,0,0,0" Visibility="Collapsed">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#x23F0;" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                <TextBlock x:Name="TxtScheduleBadge" Text="Planifi&#233;"
+                                           Foreground="#22C55E" FontSize="10" FontWeight="Bold"/>
+                            </StackPanel>
                         </Border>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <!-- Statistiques -->
+                        <Button Style="{StaticResource IconBtn}" Click="BtnStats_Click"
+                                Margin="0,0,4,0" ToolTip="Statistiques &amp; Rapports">
+                            &#x1F4CA;
+                        </Button>
                         <!-- Historique -->
-                        <Button Style="{StaticResource SecondaryButton}" Padding="10,6"
-                                Click="BtnHistory_Click" Margin="0,0,4,0" ToolTip="Historique des conversions">
-                            <TextBlock Text="&#x1F4DC;" FontSize="13"/>
+                        <Button Style="{StaticResource IconBtn}" Click="BtnHistory_Click"
+                                Margin="0,0,4,0" ToolTip="Historique">
+                            &#x1F4DC;
+                        </Button>
+                        <!-- Planificateur -->
+                        <Button Style="{StaticResource IconBtn}" Click="BtnScheduler_Click"
+                                Margin="0,0,4,0" ToolTip="Planificateur">
+                            &#x23F0;
                         </Button>
                         <!-- Paramètres -->
-                        <Button Style="{StaticResource SecondaryButton}" Padding="10,6"
-                                Click="BtnSettings_Click" Margin="0,0,8,0" ToolTip="Param&#232;tres">
-                            <TextBlock Text="&#x2699;" FontSize="13"/>
+                        <Button Style="{StaticResource IconBtn}" Click="BtnSettings_Click"
+                                Margin="0,0,10,0" ToolTip="Param&#232;tres">
+                            &#x2699;
                         </Button>
                         <Button x:Name="BtnMinimize" Content="&#x2500;" Width="36" Height="28"
                                 Background="Transparent" BorderThickness="0"
@@ -78,9 +102,9 @@
                                 Cursor="Hand" Click="BtnClose_Click">
                             <Button.Style>
                                 <Style TargetType="Button">
-                                    <Setter Property="Background"      Value="Transparent"/>
+                                    <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Foreground"      Value="{StaticResource TextSecondary}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="Button">
@@ -103,82 +127,78 @@
                 </Grid>
             </Border>
 
-            <!-- ===== BARRE D'OUTILS ===== -->
+            <!-- ═══════ BARRE D'OUTILS ═══════ -->
             <Border Grid.Row="1" Background="{StaticResource BgSecondary}"
                     BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
                 <Grid Margin="16,0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Style="{StaticResource PrimaryButton}"
-                                Click="BtnAddFiles_Click" Padding="16,9" Margin="0,0,8,0">
+                        <Button Style="{StaticResource PrimaryButton}" Click="BtnAddFiles_Click"
+                                Padding="14,8" Margin="0,0,8,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="+" FontSize="16" FontWeight="Bold"
-                                           VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBlock Text="Ajouter fichiers" VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center" Margin="0,0,7,0"/>
+                                <TextBlock Text="Ajouter" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-
-                        <Button Style="{StaticResource SecondaryButton}"
-                                Click="BtnAddFolder_Click" Margin="0,0,8,0">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnAddFolder_Click"
+                                Margin="0,0,8,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x1F4C1;" FontSize="13"
-                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="&#x1F4C1;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Dossier" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
-                        <Separator Width="1" Height="28" Margin="4,0,12,0"/>
+                        <Separator Width="1" Height="26" Margin="2,0,10,0"/>
 
                         <TextBlock Text="Format :" VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextSecondary}"
-                                   FontSize="12" Margin="0,0,8,0"/>
-                        <ComboBox x:Name="CmbGlobalFormat" Width="100" Margin="0,0,12,0"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,0,6,0"/>
+                        <ComboBox x:Name="CmbGlobalFormat" Width="90" Margin="0,0,10,0"
                                   SelectionChanged="CmbGlobalFormat_SelectionChanged"/>
 
                         <TextBlock Text="Qualit&#233; :" VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextSecondary}"
-                                   FontSize="12" Margin="0,0,8,0"/>
-                        <ComboBox x:Name="CmbGlobalQuality" Width="140" Margin="0,0,8,0"
+                                   Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,0,6,0"/>
+                        <ComboBox x:Name="CmbGlobalQuality" Width="135" Margin="0,0,8,0"
                                   SelectionChanged="CmbGlobalQuality_SelectionChanged"/>
 
-                        <Separator Width="1" Height="28" Margin="4,0,12,0"/>
+                        <Separator Width="1" Height="26" Margin="2,0,10,0"/>
 
-                        <Button Style="{StaticResource SecondaryButton}"
-                                Click="BtnOutputDir_Click" Margin="0,0,8,0">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnOutputDir_Click" Margin="0,0,6,0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x1F4C2;" FontSize="13"
-                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="&#x1F4C2;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Sortie" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <TextBlock x:Name="TxtOutputDir" VerticalAlignment="Center"
                                    Foreground="{StaticResource TextSecondary}"
-                                   FontSize="11" MaxWidth="180" TextTrimming="CharacterEllipsis"/>
+                                   FontSize="11" MaxWidth="160" TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <!-- Ouvrir dossier sortie -->
-                        <Button x:Name="BtnOpenOutput" Style="{StaticResource SecondaryButton}"
-                                Click="BtnOpenOutput_Click" Margin="0,0,8,0"
-                                ToolTip="Ouvrir le dossier de sortie">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnOpenOutput_Click"
+                                Margin="0,0,6,0" ToolTip="Ouvrir dossier de sortie">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x1F5C2;" FontSize="12"
-                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="&#x1F5C2;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Ouvrir" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SecondaryButton}"
-                                Click="BtnClearAll_Click" Margin="0,0,8,0">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnExportReport_Click"
+                                Margin="0,0,6,0" ToolTip="Exporter le rapport de cette session">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x1F5D1;" FontSize="12"
-                                           VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="&#x1F4E5;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Rapport" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnClearAll_Click"
+                                Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#x1F5D1;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Vider" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                         <Button x:Name="BtnConvertAll" Style="{StaticResource PrimaryButton}"
-                                Click="BtnConvertAll_Click" Padding="20,9">
+                                Click="BtnConvertAll_Click" Padding="18,8">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#x26A1;" FontSize="13"
-                                           VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBlock Text="&#x26A1;" FontSize="13" VerticalAlignment="Center" Margin="0,0,7,0"/>
                                 <TextBlock Text="Tout convertir" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
@@ -186,8 +206,9 @@
                 </Grid>
             </Border>
 
-            <!-- ===== ZONE PRINCIPALE ===== -->
+            <!-- ═══════ ZONE PRINCIPALE ═══════ -->
             <Grid Grid.Row="2">
+
                 <!-- Drop zone vide -->
                 <Border x:Name="DropZone" Background="Transparent"
                         BorderBrush="{StaticResource BorderBrush}"
@@ -203,80 +224,111 @@
                                    Foreground="{StaticResource TextPrimary}"
                                    HorizontalAlignment="Center" Margin="0,0,0,8"/>
                         <TextBlock Foreground="{StaticResource TextSecondary}"
-                                   FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,16">
+                                   FontSize="13" HorizontalAlignment="Center" Margin="0,0,0,20">
                             <Run Text="Formats support&#233;s : "/>
-                            <Run Text="MXF, MP4, MOV, MKV, AVI, WMV, FLV..."
+                            <Run Text="MXF, MP4, MOV, MKV, AVI, WMV, FLV, WEBM, TS..."
                                  Foreground="{StaticResource AccentBlue}"/>
                         </TextBlock>
-                        <Button Style="{StaticResource PrimaryButton}"
-                                Click="BtnAddFiles_Click" HorizontalAlignment="Center">
-                            Parcourir les fichiers
-                        </Button>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Style="{StaticResource PrimaryButton}" Click="BtnAddFiles_Click" Margin="0,0,10,0">
+                                Parcourir les fichiers
+                            </Button>
+                            <Button Style="{StaticResource SecondaryButton}" Click="BtnAddFolder_Click">
+                                Ouvrir un dossier
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
-                <!-- Liste fichiers -->
-                <Grid x:Name="FileListPanel" Visibility="Collapsed" Margin="12">
+                <!-- Liste des fichiers -->
+                <Grid x:Name="FileListPanel" Visibility="Collapsed" Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- En-têtes colonnes -->
-                    <Grid Grid.Row="0" Margin="8,0,8,8">
+                    <!-- En-têtes -->
+                    <Grid Grid.Row="0" Margin="6,0,6,6">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="110"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="110"/>
-                            <ColumnDefinition Width="70"/>
-                            <ColumnDefinition Width="115"/>
+                            <ColumnDefinition Width="90"/>   <!-- Miniature -->
+                            <ColumnDefinition Width="*"/>    <!-- Fichier -->
+                            <ColumnDefinition Width="72"/>   <!-- Taille -->
+                            <ColumnDefinition Width="65"/>   <!-- Durée -->
+                            <ColumnDefinition Width="108"/>  <!-- Format/Qualité -->
+                            <ColumnDefinition Width="120"/>  <!-- Avancé -->
+                            <ColumnDefinition Width="120"/>  <!-- Progression -->
+                            <ColumnDefinition Width="65"/>   <!-- ETA -->
+                            <ColumnDefinition Width="115"/>  <!-- Actions -->
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="FICHIER"      Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="1" Text="TAILLE"       Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="2" Text="DUR&#201;E"   Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="3" Text="FORMAT/QUALIT&#201;" Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="4" Text="AVANC&#201;"  Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="5" Text="PROGRESSION"  Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="6" Text="ETA / VITESSE" Style="{StaticResource HeaderText}"/>
-                        <TextBlock Grid.Column="7" Text="ACTIONS"      Style="{StaticResource HeaderText}"/>
+                        <TextBlock Grid.Column="0" Text="APE&#199;U"   Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="1" Text="FICHIER"      Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="2" Text="TAILLE"       Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="3" Text="DUR&#201;E"   Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="4" Text="FORMAT"       Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="5" Text="OPTIONS"      Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="6" Text="PROGRESSION"  Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="7" Text="ETA"          Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="8" Text="ACTIONS"      Style="{StaticResource Hdr}"/>
                     </Grid>
 
                     <!-- Liste scrollable -->
                     <ScrollViewer Grid.Row="1">
-                        <ListBox x:Name="FileListBox" Background="Transparent"
-                                 BorderThickness="0" Padding="0">
+                        <ListBox x:Name="FileListBox" Background="Transparent" BorderThickness="0">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:ConversionItem}">
                                     <Border Background="{StaticResource BgCard}"
                                             CornerRadius="8" Margin="0,0,0,5"
-                                            Padding="8,9"
+                                            Padding="6,8"
                                             BorderBrush="{StaticResource BorderBrush}"
                                             BorderThickness="1">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="80"/>
-                                                <ColumnDefinition Width="75"/>
-                                                <ColumnDefinition Width="110"/>
-                                                <ColumnDefinition Width="130"/>
-                                                <ColumnDefinition Width="110"/>
-                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="72"/>
+                                                <ColumnDefinition Width="65"/>
+                                                <ColumnDefinition Width="108"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="65"/>
                                                 <ColumnDefinition Width="115"/>
                                             </Grid.ColumnDefinitions>
 
+                                            <!-- Miniature -->
+                                            <Border Grid.Column="0" Width="80" Height="50"
+                                                    Background="#0D1117" CornerRadius="5"
+                                                    VerticalAlignment="Center">
+                                                <Grid>
+                                                    <!-- Image si disponible -->
+                                                    <Image Source="{Binding Thumbnail}"
+                                                           Stretch="UniformToFill"
+                                                           Visibility="{Binding HasThumbnail,
+                                                               Converter={x:Static }}"
+                                                           VerticalAlignment="Center"/>
+                                                    <!-- Fallback icône -->
+                                                    <TextBlock Text="&#x1F3AC;" FontSize="22"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center">
+                                                        <TextBlock.Visibility>
+                                                            <Binding Path="HasThumbnail">
+                                                                <Binding.Converter>
+                                                                    <BooleanToVisibilityConverter/>
+                                                                </Binding.Converter>
+                                                            </Binding>
+                                                        </TextBlock.Visibility>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
+
                                             <!-- Nom fichier -->
-                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="8,0,4,0">
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Border Background="#1A2540" CornerRadius="4"
-                                                            Padding="5,2" VerticalAlignment="Center"
-                                                            Margin="0,0,8,0">
+                                                    <Border Background="#1A2540" CornerRadius="3"
+                                                            Padding="4,1" Margin="0,0,6,0">
                                                         <TextBlock Text="{Binding FileExtension}"
                                                                    Foreground="{StaticResource AccentBlue}"
-                                                                   FontSize="10" FontWeight="Bold"/>
+                                                                   FontSize="9" FontWeight="Bold"/>
                                                     </Border>
                                                     <TextBlock Text="{Binding FileName}"
                                                                Foreground="{StaticResource TextPrimary}"
@@ -285,22 +337,22 @@
                                                 </StackPanel>
                                                 <TextBlock Text="{Binding VideoInfo}"
                                                            Foreground="{StaticResource TextMuted}"
-                                                           FontSize="10" Margin="0,2,0,0"/>
+                                                           FontSize="9" Margin="0,2,0,0"/>
                                             </StackPanel>
 
                                             <!-- Taille -->
-                                            <TextBlock Grid.Column="1" Text="{Binding FileSizeFormatted}"
+                                            <TextBlock Grid.Column="2" Text="{Binding FileSizeFormatted}"
                                                        VerticalAlignment="Center"
                                                        Foreground="{StaticResource TextSecondary}" FontSize="11"/>
 
                                             <!-- Durée -->
-                                            <TextBlock Grid.Column="2" Text="{Binding DurationFormatted}"
+                                            <TextBlock Grid.Column="3" Text="{Binding DurationFormatted}"
                                                        VerticalAlignment="Center"
                                                        Foreground="{StaticResource TextSecondary}" FontSize="11"/>
 
-                                            <!-- Format + Qualité (empilés) -->
-                                            <StackPanel Grid.Column="3" VerticalAlignment="Center">
-                                                <ComboBox Width="100" Margin="0,0,0,4"
+                                            <!-- Format + Qualité empilés -->
+                                            <StackPanel Grid.Column="4" VerticalAlignment="Center">
+                                                <ComboBox Width="100" Margin="0,0,0,3"
                                                           ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Formats}"
                                                           SelectedItem="{Binding OutputFormat, Mode=TwoWay}"
                                                           FontSize="11"/>
@@ -310,82 +362,74 @@
                                                           FontSize="10"/>
                                             </StackPanel>
 
-                                            <!-- Options avancées résumé -->
-                                            <StackPanel Grid.Column="4" VerticalAlignment="Center">
+                                            <!-- Options avancées -->
+                                            <StackPanel Grid.Column="5" VerticalAlignment="Center">
                                                 <Button Style="{StaticResource SecondaryButton}"
-                                                        Padding="8,4" FontSize="10"
+                                                        Padding="6,4" FontSize="10" Margin="0,0,0,3"
                                                         Tag="{Binding Id}"
-                                                        Click="BtnAdvancedOptions_Click"
-                                                        Margin="0,0,0,4">
+                                                        Click="BtnAdvancedOptions_Click">
                                                     &#x2699; Options
+                                                </Button>
+                                                <Button Style="{StaticResource SecondaryButton}"
+                                                        Padding="6,4" FontSize="10" Margin="0,0,0,3"
+                                                        Tag="{Binding Id}"
+                                                        Click="BtnMetadata_Click">
+                                                    &#x1F3F7; M&#233;ta
                                                 </Button>
                                                 <TextBlock Text="{Binding Advanced.Resolution}"
                                                            Foreground="{StaticResource TextMuted}"
                                                            FontSize="9" TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock Text="{Binding Advanced.Rotation}"
-                                                           Foreground="{StaticResource TextMuted}"
-                                                           FontSize="9"/>
                                             </StackPanel>
 
                                             <!-- Progression -->
-                                            <StackPanel Grid.Column="5" VerticalAlignment="Center">
+                                            <StackPanel Grid.Column="6" VerticalAlignment="Center">
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
                                                     <Ellipse Style="{StaticResource StatusDot}"
-                                                             Fill="{Binding StatusColor}"
-                                                             Margin="0,0,6,0"/>
+                                                             Fill="{Binding StatusColor}" Margin="0,0,5,0"/>
                                                     <TextBlock Text="{Binding StatusLabel}"
-                                                               FontSize="10"
-                                                               Foreground="{Binding StatusColor}"/>
+                                                               FontSize="10" Foreground="{Binding StatusColor}"/>
                                                     <TextBlock Text="{Binding ProgressText}"
                                                                FontSize="10" FontWeight="Bold"
                                                                Foreground="{Binding StatusColor}"
-                                                               Margin="6,0,0,0"/>
+                                                               Margin="5,0,0,0"/>
                                                 </StackPanel>
                                                 <ProgressBar Value="{Binding Progress}"
-                                                             Maximum="100" Margin="0,0,0,3"/>
+                                                             Maximum="100" Margin="0,0,0,2"/>
                                                 <TextBlock Text="{Binding StatusMessage}"
                                                            FontSize="9"
                                                            Foreground="{StaticResource TextMuted}"
                                                            TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
 
-                                            <!-- ETA + Vitesse -->
-                                            <StackPanel Grid.Column="6" VerticalAlignment="Center">
+                                            <!-- ETA + vitesse -->
+                                            <StackPanel Grid.Column="7" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding ETA}"
                                                            Foreground="{StaticResource AccentBlue}"
                                                            FontSize="11" FontWeight="SemiBold"/>
                                                 <TextBlock Text="{Binding SpeedText}"
                                                            Foreground="{StaticResource TextMuted}"
-                                                           FontSize="10"/>
+                                                           FontSize="9"/>
                                             </StackPanel>
 
                                             <!-- Actions -->
-                                            <StackPanel Grid.Column="7" Orientation="Horizontal"
-                                                        VerticalAlignment="Center">
+                                            <StackPanel Grid.Column="8" Orientation="Horizontal" VerticalAlignment="Center">
                                                 <Button Style="{StaticResource SecondaryButton}"
                                                         Padding="7,5" FontSize="11"
                                                         IsEnabled="{Binding CanConvert}"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnConvertOne_Click"
-                                                        Margin="0,0,3,0"
-                                                        ToolTip="Convertir">&#x25B6;</Button>
+                                                        Tag="{Binding Id}" Click="BtnConvertOne_Click"
+                                                        Margin="0,0,3,0" ToolTip="Convertir">&#x25B6;</Button>
                                                 <Button Style="{StaticResource SecondaryButton}"
                                                         Padding="7,5" FontSize="11"
                                                         IsEnabled="{Binding CanCancel}"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnCancelOne_Click"
-                                                        Margin="0,0,3,0"
-                                                        ToolTip="Annuler">&#x25A0;</Button>
+                                                        Tag="{Binding Id}" Click="BtnCancelOne_Click"
+                                                        Margin="0,0,3,0" ToolTip="Annuler">&#x25A0;</Button>
                                                 <Button Style="{StaticResource SecondaryButton}"
                                                         Padding="7,5" FontSize="11"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnOpenFile_Click"
-                                                        Margin="0,0,3,0"
-                                                        ToolTip="Ouvrir le fichier converti">&#x1F4C2;</Button>
+                                                        Tag="{Binding Id}" Click="BtnOpenFile_Click"
+                                                        Margin="0,0,3,0" ToolTip="Ouvrir le fichier converti">&#x1F4C2;</Button>
                                                 <Button Style="{StaticResource DangerButton}"
                                                         Padding="7,5" FontSize="11"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnRemoveOne_Click"
+                                                        Tag="{Binding Id}" Click="BtnRemoveOne_Click"
                                                         ToolTip="Supprimer">&#x2715;</Button>
                                             </StackPanel>
                                         </Grid>
@@ -395,33 +439,32 @@
                         </ListBox>
                     </ScrollViewer>
 
-                    <!-- Résumé bas -->
+                    <!-- ─── Résumé bas ─── -->
                     <Border Grid.Row="2" Background="{StaticResource BgCard}"
-                            CornerRadius="8" Padding="16,8" Margin="0,6,0,0"
+                            CornerRadius="8" Padding="14,8" Margin="0,6,0,0"
                             BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
                         <Grid>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
-                                    <TextBlock Text="&#x1F4C4;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
+                                    <TextBlock Text="&#x1F4C4;" FontSize="11" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBlock x:Name="TxtTotalFiles" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
                                     <Ellipse Width="7" Height="7" Fill="{StaticResource AccentGreen}"
                                              VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBlock x:Name="TxtCompleted" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
                                     <Ellipse Width="7" Height="7" Fill="{StaticResource AccentOrange}"
                                              VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBlock x:Name="TxtPending" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
                                     <Ellipse Width="7" Height="7" Fill="{StaticResource AccentRed}"
                                              VerticalAlignment="Center" Margin="0,0,5,0"/>
                                     <TextBlock x:Name="TxtErrors" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
                                 </StackPanel>
-                                <!-- Parallèle info -->
-                                <Border Background="#1A2540" CornerRadius="4" Padding="8,2">
+                                <Border Background="#1A2540" CornerRadius="4" Padding="7,2">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="&#x26A1;" FontSize="10" VerticalAlignment="Center" Margin="0,0,4,0"/>
                                         <TextBlock x:Name="TxtParallelInfo"
@@ -429,32 +472,31 @@
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
-
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <TextBlock x:Name="TxtGlobalProgress" VerticalAlignment="Center"
+                                <TextBlock x:Name="TxtGlobalProgress"
+                                           VerticalAlignment="Center"
                                            Foreground="{StaticResource TextSecondary}"
-                                           FontSize="11" Margin="0,0,12,0"/>
+                                           FontSize="11" Margin="0,0,10,0"/>
                                 <ProgressBar x:Name="GlobalProgressBar" Width="200"
-                                             Maximum="100" Height="8" VerticalAlignment="Center"/>
+                                             Maximum="100" Height="7" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Grid>
                     </Border>
                 </Grid>
             </Grid>
 
-            <!-- ===== BARRE DE STATUT ===== -->
+            <!-- ═══════ BARRE DE STATUT ═══════ -->
             <Border Grid.Row="3" Background="{StaticResource BgSecondary}"
                     BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
-                    CornerRadius="0,0,12,12" Padding="16,8">
+                    CornerRadius="0,0,12,12" Padding="16,7">
                 <Grid>
                     <TextBlock x:Name="TxtStatus"
                                Text="Pr&#234;t &#8212; Glissez des fichiers ou cliquez sur Ajouter"
                                Foreground="{StaticResource TextMuted}" FontSize="11"
                                VerticalAlignment="Center"/>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <TextBlock Text="FFmpeg Engine"
-                                   Foreground="{StaticResource TextMuted}" FontSize="10"
-                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="FFmpeg" Foreground="{StaticResource TextMuted}"
+                                   FontSize="10" VerticalAlignment="Center" Margin="0,0,6,0"/>
                         <Ellipse x:Name="FFmpegStatusDot" Width="7" Height="7"
                                  Fill="{StaticResource AccentGreen}" VerticalAlignment="Center"/>
                     </StackPanel>

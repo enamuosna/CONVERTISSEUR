@@ -93,6 +93,29 @@ public static class FFmpegService
             }
         }
 
+
+        // ── Filigrane texte ──
+        if (!isAudioOnly && adv.EnableWatermark && !string.IsNullOrWhiteSpace(adv.WatermarkText))
+        {
+            var pos = adv.WatermarkPos switch
+            {
+                "Haut-gauche"   => "x=20:y=20",
+                "Haut-centre"   => "x=(w-text_w)/2:y=20",
+                "Haut-droite"   => "x=w-text_w-20:y=20",
+                "Centre"        => "x=(w-text_w)/2:y=(h-text_h)/2",
+                "Bas-gauche"    => "x=20:y=h-text_h-20",
+                "Bas-centre"    => "x=(w-text_w)/2:y=h-text_h-20",
+                _               => "x=w-text_w-20:y=h-text_h-20" // Bas-droite
+            };
+            var alpha   = adv.WatermarkOpacity.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+            // Echappement FFmpeg drawtext : ' et : doivent etre precedes de \\
+            var escaped = adv.WatermarkText
+                            .Replace("'", "\\'")
+                            .Replace(":", "\\:");
+            var vfParam = $"drawtext=text='{escaped}':fontsize={adv.WatermarkSize}:fontcolor={adv.WatermarkColor}@{alpha}:{pos}";
+            conversion.AddParameter($"-vf \"{vfParam}\"");
+        }
+
         conversion.SetOutput(outputPath);
 
         if (progress != null)

@@ -26,6 +26,10 @@ public partial class SettingsWindow : Window
         ChkAutoOpen.IsChecked          = _settings.AutoOpenOutputDir;
         ChkOverwrite.IsChecked         = _settings.OverwriteExisting;
         ChkDeleteSource.IsChecked      = _settings.DeleteSourceOnDone;
+        if (GetControl<System.Windows.Controls.CheckBox>("ChkThumbnails") is { } ct)
+            ct.IsChecked = _settings.ShowThumbnails;
+        if (GetControl<System.Windows.Controls.CheckBox>("ChkShutdown") is { } cs)
+            cs.IsChecked = _settings.ShutdownAfterAll;
     }
 
     private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -38,6 +42,15 @@ public partial class SettingsWindow : Window
         _settings.OverwriteExisting      = ChkOverwrite.IsChecked == true;
         _settings.DeleteSourceOnDone     = ChkDeleteSource.IsChecked == true;
 
+        if (GetControl<System.Windows.Controls.CheckBox>("ChkThumbnails") is { } ct2)
+            _settings.ShowThumbnails = ct2.IsChecked == true;
+        if (GetControl<System.Windows.Controls.CheckBox>("ChkShutdown") is { } cs2)
+            _settings.ShutdownAfterAll = cs2.IsChecked == true;
+        if (GetControl<System.Windows.Controls.ComboBox>("CmbReportFormat") is { } cr)
+        {
+            _settings.GenerateReport  = cr.SelectedIndex > 0;
+            _settings.ReportFormat    = cr.SelectedIndex == 2 ? "TXT" : "CSV";
+        }
         SettingsService.Save(_settings);
         DialogResult = true;
         Close();
@@ -48,4 +61,7 @@ public partial class SettingsWindow : Window
     {
         if (e.LeftButton == MouseButtonState.Pressed) DragMove();
     }
+
+    private T? GetControl<T>(string name) where T : System.Windows.DependencyObject
+        => FindName(name) as T;
 }

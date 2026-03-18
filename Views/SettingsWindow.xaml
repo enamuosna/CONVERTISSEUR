@@ -112,6 +112,52 @@
                                  Padding="6,5" FontSize="11"/>
                     </Grid>
 
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Afficher les miniatures vid&#233;o"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Extrait une image d'aper&#231;u de chaque fichier"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="ChkThumbnails" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="&#201;teindre le PC apr&#232;s toutes les conversions"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Lance un arr&#234;t syst&#232;me (30s) apr&#232;s la fin"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="ChkShutdown" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="G&#233;n&#233;rer un rapport automatique"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Exporte un rapport dans le dossier de sortie"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" x:Name="CmbReportFormat" VerticalAlignment="Center">
+                            <ComboBoxItem Content="D&#233;sactiv&#233;" IsSelected="True"/>
+                            <ComboBoxItem Content="CSV"/>
+                            <ComboBoxItem Content="TXT"/>
+                        </ComboBox>
+                    </Grid>
+
                     <Separator/>
 
                     <!-- Section Comportement -->

@@ -1,5 +1,5 @@
 ﻿MXFConverter
-1.0.0.0
+3.0.0.0
 
 winexe
 C#
@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\victus\Documents\CONVERTISSEUR\App.xaml
-5891410035
+10676099895
 
-131819879573
-2021926063527
-Themes\DarkTheme.xaml;Views\AdvancedOptionsWindow.xaml;Views\HistoryWindow.xaml;Views\MainWindow.xaml;Views\SettingsWindow.xaml;
+25452644859
+211326788619
+Themes\DarkTheme.xaml;Views\AdvancedOptionsWindow.xaml;Views\HistoryWindow.xaml;Views\MainWindow.xaml;Views\MetadataWindow.xaml;Views\NewProfileWindow.xaml;Views\ProfilesWindow.xaml;Views\SchedulerWindow.xaml;Views\SettingsWindow.xaml;Views\StatisticsWindow.xaml;
 
 False
 
