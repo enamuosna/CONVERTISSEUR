@@ -1,0 +1,180 @@
+<Window x:Class="MXFConverter.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Paramètres — MXF Converter Pro"
+        Width="520" Height="500"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{StaticResource BgPrimary}"
+        Foreground="{StaticResource TextPrimary}"
+        WindowStyle="None"
+        AllowsTransparency="True">
+
+    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="56"/>
+            </Grid.RowDefinitions>
+
+            <!-- Titre -->
+            <Border Grid.Row="0" Background="{StaticResource BgSecondary}"
+                    CornerRadius="10,10,0,0" MouseLeftButtonDown="TitleBar_MouseDown">
+                <Grid Margin="16,0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="&#x2699;" FontSize="16" Foreground="{StaticResource AccentBlue}"
+                                   VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBlock Text="Param&#232;tres" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Content="&#x2715;" HorizontalAlignment="Right" Width="32" Height="28"
+                            Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource TextSecondary}" Cursor="Hand"
+                            Click="BtnClose_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- Contenu -->
+            <ScrollViewer Grid.Row="1" Margin="24,16">
+                <StackPanel>
+
+                    <!-- Section Conversion -->
+                    <TextBlock Text="CONVERSION" Foreground="{StaticResource AccentBlue}"
+                               FontSize="10" FontWeight="Bold" Margin="0,0,0,12"/>
+
+                    <!-- Conversions parallèles -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Conversions en parall&#232;le"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Nombre de fichiers convertis simultan&#233;ment"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" x:Name="CmbParallel" VerticalAlignment="Center">
+                            <ComboBoxItem Content="1 (économique)"/>
+                            <ComboBoxItem Content="2 (recommandé)" IsSelected="True"/>
+                            <ComboBoxItem Content="3"/>
+                            <ComboBoxItem Content="4 (rapide)"/>
+                        </ComboBox>
+                    </Grid>
+
+                    <!-- Format par défaut -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Format par d&#233;faut"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Format appliqu&#233; aux nouveaux fichiers ajout&#233;s"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" x:Name="CmbDefaultFormat" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Qualité par défaut -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="160"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Qualit&#233; par d&#233;faut"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Pr&#233;r&#233;glage qualit&#233; appliqu&#233; par d&#233;faut"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <ComboBox Grid.Column="1" x:Name="CmbDefaultQuality" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Nommage fichier sortie -->
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="160"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Nom du fichier de sortie"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Tokens : {name} {format} {date}"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <TextBox x:Name="TxtNaming" Grid.Column="1" VerticalAlignment="Center"
+                                 Background="{StaticResource BgCard}"
+                                 Foreground="{StaticResource TextPrimary}"
+                                 BorderBrush="{StaticResource BorderBrush}"
+                                 Padding="6,5" FontSize="11"/>
+                    </Grid>
+
+                    <Separator/>
+
+                    <!-- Section Comportement -->
+                    <TextBlock Text="COMPORTEMENT" Foreground="{StaticResource AccentBlue}"
+                               FontSize="10" FontWeight="Bold" Margin="0,8,0,12"/>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Ouvrir le dossier apr&#232;s conversion"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Ouvre automatiquement le dossier de sortie"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="ChkAutoOpen" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="&#201;craser les fichiers existants"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Remplace le fichier de sortie s'il existe d&#233;j&#224;"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="ChkOverwrite" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Supprimer la source apr&#232;s conversion"
+                                       Foreground="{StaticResource TextPrimary}" FontSize="13"/>
+                            <TextBlock Text="Supprime le fichier original une fois converti"
+                                       Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <CheckBox x:Name="ChkDeleteSource" Grid.Column="1" VerticalAlignment="Center"/>
+                    </Grid>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Boutons bas -->
+            <Border Grid.Row="2" Background="{StaticResource BgSecondary}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+                    CornerRadius="0,0,10,10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            VerticalAlignment="Center" Margin="16,0">
+                    <Button Content="Annuler" Style="{StaticResource SecondaryButton}"
+                            Margin="0,0,8,0" Click="BtnClose_Click"/>
+                    <Button Content="Enregistrer" Style="{StaticResource PrimaryButton}"
+                            Click="BtnSave_Click"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

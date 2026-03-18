@@ -1,4 +1,3 @@
-using System.IO;
 using MXFConverter.Models;
 using Xabe.FFmpeg;
 
@@ -6,116 +5,138 @@ namespace MXFConverter.Services;
 
 public static class FFmpegService
 {
-    // Dictionnaire des formats supportés avec leurs extensions
     public static readonly Dictionary<string, string> SupportedFormats = new()
     {
-        { "MP4",  ".mp4"  },
-        { "MOV",  ".mov"  },
-        { "MKV",  ".mkv"  },
-        { "AVI",  ".avi"  },
-        { "WMV",  ".wmv"  },
-        { "FLV",  ".flv"  },
-        { "WEBM", ".webm" },
-        { "TS",   ".ts"   },
-        { "MXF",  ".mxf"  },
-        { "GIF",  ".gif"  },
-        { "MP3",  ".mp3"  },
-        { "AAC",  ".aac"  },
-        { "WAV",  ".wav"  },
-        { "FLAC", ".flac" },
+        { "MP4",  ".mp4"  }, { "MOV",  ".mov"  }, { "MKV",  ".mkv"  },
+        { "AVI",  ".avi"  }, { "WMV",  ".wmv"  }, { "FLV",  ".flv"  },
+        { "WEBM", ".webm" }, { "TS",   ".ts"   }, { "MXF",  ".mxf"  },
+        { "GIF",  ".gif"  }, { "MP3",  ".mp3"  }, { "AAC",  ".aac"  },
+        { "WAV",  ".wav"  }, { "FLAC", ".flac" },
     };
 
-    // Préréglages qualité
     public static readonly Dictionary<string, (string VideoCodec, string CRF, string Preset, string AudioBitrate)> QualityPresets = new()
     {
-        { "Haute qualité",    ("libx264", "18", "slow",   "320k") },
-        { "Qualité standard", ("libx264", "23", "medium", "192k") },
-        { "Faible taille",    ("libx264", "28", "fast",   "128k") },
+        { "Haute qualité",    ("libx264", "18", "slow",    "320k") },
+        { "Qualité standard", ("libx264", "23", "medium",  "192k") },
+        { "Faible taille",    ("libx264", "28", "fast",    "128k") },
         { "Sans perte",       ("libx264", "0",  "veryslow","320k") },
-        { "H.265 (HEVC)",     ("libx265", "20", "slow",   "256k") },
+        { "H.265 (HEVC)",     ("libx265", "20", "slow",    "256k") },
     };
 
     public static async Task<IMediaInfo> GetMediaInfoAsync(string filePath)
-    {
-        return await FFmpeg.GetMediaInfo(filePath);
-    }
+        => await FFmpeg.GetMediaInfo(filePath);
 
     public static async Task ConvertAsync(
         ConversionItem item,
         IProgress<double>? progress = null,
         CancellationToken cancellationToken = default)
     {
-        var ext = SupportedFormats.GetValueOrDefault(item.OutputFormat, ".mp4");
-        var outputFileName = Path.GetFileNameWithoutExtension(item.InputPath) + "_converted" + ext;
-        var outputPath = Path.Combine(item.OutputDirectory, outputFileName);
+        var ext        = SupportedFormats.GetValueOrDefault(item.OutputFormat, ".mp4");
+        var outName    = BuildOutputName(item);
+        var outputPath = Path.Combine(item.OutputDirectory, outName + ext);
         item.OutputPath = outputPath;
 
-        // Formats audio seulement
         var audioOnlyFormats = new HashSet<string> { "MP3", "AAC", "WAV", "FLAC" };
         bool isAudioOnly = audioOnlyFormats.Contains(item.OutputFormat);
 
-        var preset = QualityPresets.GetValueOrDefault(item.QualityPreset, QualityPresets["Haute qualité"]);
+        var preset    = QualityPresets.GetValueOrDefault(item.QualityPreset, QualityPresets["Haute qualité"]);
         var mediaInfo = await FFmpeg.GetMediaInfo(item.InputPath, cancellationToken);
+        var adv       = item.Advanced;
 
-        IConversion conversion;
+        var conversion = FFmpeg.Conversions.New().SetOverwriteOutput(true);
 
-        if (isAudioOnly)
-        {
-            var audioStream = mediaInfo.AudioStreams.FirstOrDefault();
-            if (audioStream == null)
-                throw new InvalidOperationException("Aucune piste audio trouvée dans le fichier source.");
-
-            conversion = FFmpeg.Conversions.New()
-                .AddStream(audioStream)
-                .SetOutput(outputPath)
-                .SetOverwriteOutput(true);
-
-            // Bitrate audio
-            conversion.AddParameter($"-b:a {preset.AudioBitrate}");
-        }
-        else
+        // ── Vidéo ──
+        if (!isAudioOnly && !adv.RemoveAudio)
         {
             var videoStream = mediaInfo.VideoStreams.FirstOrDefault();
-            var audioStream = mediaInfo.AudioStreams.FirstOrDefault();
-
-            conversion = FFmpeg.Conversions.New().SetOverwriteOutput(true);
-
             if (videoStream != null)
             {
                 videoStream.SetCodec(preset.VideoCodec);
+
+                // Résolution
+                ApplyResolution(videoStream, adv);
+
+                // Framerate
+                if (adv.Framerate != "Original" && double.TryParse(adv.Framerate, out var fps))
+                    videoStream.SetFramerate(fps);
+
+                // Rotation / flip
+                ApplyRotation(videoStream, adv);
+
+                // Rognage temporel
+                if (adv.EnableTrim && adv.TrimEnd > adv.TrimStart)
+                {
+                    conversion.AddParameter($"-ss {adv.TrimStart:F3}");
+                    conversion.AddParameter($"-to {adv.TrimEnd:F3}");
+                }
+
                 conversion.AddStream(videoStream);
-                conversion.AddParameter($"-crf {preset.CRF}");
+                conversion.AddParameter(adv.UseCustomVideoBitrate
+                    ? $"-b:v {adv.VideoBitrate}k"
+                    : $"-crf {preset.CRF}");
                 conversion.AddParameter($"-preset {preset.Preset}");
             }
+        }
 
+        // ── Audio ──
+        if (!adv.RemoveAudio)
+        {
+            var audioStream = mediaInfo.AudioStreams.FirstOrDefault();
             if (audioStream != null)
             {
-                audioStream.SetCodec(preset.VideoCodec == "libx265" ? "aac" : "aac");
+                audioStream.SetCodec("aac");
                 conversion.AddStream(audioStream);
-                conversion.AddParameter($"-b:a {preset.AudioBitrate}");
+                conversion.AddParameter(adv.UseCustomAudioBitrate
+                    ? $"-b:a {adv.AudioBitrate}k"
+                    : $"-b:a {preset.AudioBitrate}");
             }
-
-            conversion.SetOutput(outputPath);
         }
+
+        conversion.SetOutput(outputPath);
 
         if (progress != null)
-        {
-            conversion.OnProgress += (sender, args) =>
-            {
-                progress.Report(args.Percent);
-            };
-        }
+            conversion.OnProgress += (_, args) => progress.Report(args.Percent);
 
         await conversion.Start(cancellationToken);
     }
 
-    public static string[] GetSupportedInputExtensions()
+    // ── Helpers ──
+
+    private static string BuildOutputName(ConversionItem item)
     {
-        return new[]
-        {
-            ".mxf", ".mp4", ".mov", ".mkv", ".avi", ".wmv",
-            ".flv", ".webm", ".ts", ".m2ts", ".mpg", ".mpeg",
-            ".mp3", ".aac", ".wav", ".flac", ".ogg", ".m4a"
-        };
+        var name = Path.GetFileNameWithoutExtension(item.InputPath);
+        return $"{name}_converted";
     }
+
+    private static void ApplyResolution(IVideoStream vs, AdvancedOptions adv)
+    {
+        var (w, h) = adv.Resolution switch
+        {
+            "3840×2160 (4K)"  => (3840, 2160),
+            "1920×1080 (FHD)" => (1920, 1080),
+            "1280×720 (HD)"   => (1280, 720),
+            "854×480 (SD)"    => (854,  480),
+            "640×360"         => (640,  360),
+            "Personnalisée"   => (adv.CustomWidth, adv.CustomHeight),
+            _                 => (0, 0)
+        };
+        if (w > 0 && h > 0) vs.SetSize(w, h);
+    }
+
+    private static void ApplyRotation(IVideoStream vs, AdvancedOptions adv)
+    {
+        // Xabe.FFmpeg supporte SetRotate pour rotation simple
+        // Pour flip, on utilise AddParameter plus bas
+        switch (adv.Rotation)
+        {
+            case "90° (horaire)":         vs.Rotate(RotateDegrees.Clockwise);        break;
+            case "180°":                  vs.Rotate(RotateDegrees.Invert);            break;
+            case "270° (anti-horaire)":   vs.Rotate(RotateDegrees.CounterClockwise); break;
+        }
+    }
+
+    public static string[] GetSupportedInputExtensions() =>
+        new[] { ".mxf", ".mp4", ".mov", ".mkv", ".avi", ".wmv",
+                ".flv", ".webm", ".ts", ".m2ts", ".mpg", ".mpeg",
+                ".mp3", ".aac", ".wav", ".flac", ".ogg", ".m4a" };
 }
