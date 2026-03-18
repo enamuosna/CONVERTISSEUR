@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace MXFConverter.Models;
 
 public class ConversionRecord
