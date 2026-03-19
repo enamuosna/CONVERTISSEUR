@@ -26,6 +26,7 @@
     <!-- ===== OPTIMISATIONS ===== -->
     <PublishTrimmed>false</PublishTrimmed>
     <TieredCompilation>true</TieredCompilation>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
 
     <!-- ===== WARNINGS À IGNORER ===== -->
     <NoWarn>1701;1702;8002</NoWarn>

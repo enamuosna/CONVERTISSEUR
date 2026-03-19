@@ -7,8 +7,8 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using MXFConverter.Models;
 using MXFConverter.Services;
-using static System.Windows.Media.ColorConverter;
 using Color = System.Windows.Media.Color;
+using ColorConverter = System.Windows.Media.ColorConverter;
 using Point = System.Windows.Point;
 using Rectangle = System.Windows.Shapes.Rectangle;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
@@ -133,7 +133,7 @@ public partial class StatisticsWindow : Window
                 var tb = new TextBlock
                 {
                     Text       = label.Length > 10 ? label[..10] : label,
-                    Foreground = new SolidColorBrush((Color)ConvertFromString("#94A3B8")),
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#94A3B8")),
                     FontSize   = 10,
                     Width      = labelW - 4,
                     TextTrimming = TextTrimming.CharacterEllipsis
@@ -147,7 +147,7 @@ public partial class StatisticsWindow : Window
                 {
                     Width  = Math.Max(barW, 2),
                     Height = barH,
-                    Fill   = new SolidColorBrush((Color)ConvertFromString(color)),
+                    Fill   = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color)),
                     RadiusX = 3, RadiusY = 3
                 };
                 Canvas.SetLeft(rect, labelW);
@@ -193,7 +193,7 @@ public partial class StatisticsWindow : Window
             {
                 Text       = $"{(double)success / total * 100:F0}%",
                 FontSize   = 22, FontWeight = FontWeights.Bold,
-                Foreground = new SolidColorBrush((Color)ConvertFromString("#22C55E"))
+                Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#22C55E"))
             };
             Canvas.SetLeft(tb, cx - 22);
             Canvas.SetTop(tb, cy - 14);
@@ -219,7 +219,7 @@ public partial class StatisticsWindow : Window
 
         var path = new System.Windows.Shapes.Path
         {
-            Fill = new SolidColorBrush((Color)ConvertFromString(colorHex))
+            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorHex))
         };
 
         var geo = new PathGeometry();
@@ -249,7 +249,7 @@ public partial class StatisticsWindow : Window
         var dot = new Ellipse
         {
             Width = 10, Height = 10,
-            Fill  = new SolidColorBrush((Color)ConvertFromString(color))
+            Fill  = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color))
         };
         Canvas.SetLeft(dot, x); Canvas.SetTop(dot, y + 2);
         c.Children.Add(dot);
@@ -257,7 +257,7 @@ public partial class StatisticsWindow : Window
         var tb = new TextBlock
         {
             Text       = text,
-            Foreground = new SolidColorBrush((Color)ConvertFromString("#94A3B8")),
+            Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#94A3B8")),
             FontSize   = 10
         };
         Canvas.SetLeft(tb, x + 14); Canvas.SetTop(tb, y);
@@ -270,7 +270,7 @@ public partial class StatisticsWindow : Window
         var factory = new FrameworkElementFactory(typeof(Border));
         factory.SetValue(Border.MarginProperty, new Thickness(0, 0, 0, 6));
         factory.SetValue(Border.BackgroundProperty,
-            new SolidColorBrush((Color)ConvertFromString("#0D1117")));
+            new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D1117")));
         factory.SetValue(Border.CornerRadiusProperty, new CornerRadius(6));
         factory.SetValue(Border.PaddingProperty, new Thickness(10, 7, 10, 7));
 
@@ -286,7 +286,7 @@ public partial class StatisticsWindow : Window
         var nameBlock = new FrameworkElementFactory(typeof(TextBlock));
         nameBlock.SetBinding(TextBlock.TextProperty, new System.Windows.Data.Binding("Name"));
         nameBlock.SetValue(TextBlock.ForegroundProperty,
-            new SolidColorBrush((Color)ConvertFromString("#F1F5F9")));
+            new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F1F5F9")));
         nameBlock.SetValue(TextBlock.FontSizeProperty, 12.0);
         nameBlock.SetValue(TextBlock.TextTrimmingProperty, TextTrimming.CharacterEllipsis);
         nameBlock.SetValue(Grid.ColumnProperty, 0);
@@ -295,7 +295,7 @@ public partial class StatisticsWindow : Window
         var infoBlock = new FrameworkElementFactory(typeof(TextBlock));
         infoBlock.SetValue(Grid.ColumnProperty, 1);
         infoBlock.SetValue(TextBlock.ForegroundProperty,
-            new SolidColorBrush((Color)ConvertFromString("#94A3B8")));
+            new SolidColorBrush((Color)ColorConverter.ConvertFromString("#94A3B8")));
         infoBlock.SetValue(TextBlock.FontSizeProperty, 11.0);
         infoBlock.SetBinding(TextBlock.TextProperty, new System.Windows.Data.Binding("SizeIn"));
         grid.AppendChild(infoBlock);

@@ -6,50 +6,49 @@ namespace MXFConverter.Views;
 
 public partial class MetadataWindow : Window
 {
-    public VideoMetadata Result { get; private set; } = new();
-    private readonly VideoMetadata _original;
+    private readonly ConversionItem _item;
 
-    public MetadataWindow(string fileName, VideoMetadata current)
+    public MetadataWindow(ConversionItem item)
     {
         InitializeComponent();
-        _original       = current;
-        TxtTitle.Text   = fileName;
+        _item = item;
 
-        TxtMetaTitle.Text     = current.Title;
-        TxtMetaAuthor.Text    = current.Author;
-        TxtMetaDesc.Text      = current.Description;
-        TxtMetaCopyright.Text = current.Copyright;
-        TxtMetaYear.Text      = current.Year;
-        TxtMetaComment.Text   = current.Comment;
-    }
+        TxtTitle.Text = $"Métadonnées — {item.FileName}";
 
-    public MetadataWindow(ConversionItem fileName)
-    {
-        throw new NotImplementedException();
+        var m = item.Metadata;
+        TxtMetaTitle.Text     = m.Title;
+        TxtMetaAuthor.Text    = m.Author;
+        TxtMetaDesc.Text      = m.Description;
+        TxtMetaCopyright.Text = m.Copyright;
+        TxtMetaYear.Text      = m.Year;
+        TxtMetaComment.Text   = m.Comment;
     }
 
     private void BtnSave_Click(object sender, RoutedEventArgs e)
     {
-        Result = new VideoMetadata
-        {
-            Title       = TxtMetaTitle.Text.Trim(),
-            Author      = TxtMetaAuthor.Text.Trim(),
-            Description = TxtMetaDesc.Text.Trim(),
-            Copyright   = TxtMetaCopyright.Text.Trim(),
-            Year        = TxtMetaYear.Text.Trim(),
-            Comment     = TxtMetaComment.Text.Trim(),
-        };
+        _item.Metadata.Title       = TxtMetaTitle.Text.Trim();
+        _item.Metadata.Author      = TxtMetaAuthor.Text.Trim();
+        _item.Metadata.Description = TxtMetaDesc.Text.Trim();
+        _item.Metadata.Copyright   = TxtMetaCopyright.Text.Trim();
+        _item.Metadata.Year        = TxtMetaYear.Text.Trim();
+        _item.Metadata.Comment     = TxtMetaComment.Text.Trim();
+
         DialogResult = true;
         Close();
     }
 
     private void BtnClear_Click(object sender, RoutedEventArgs e)
     {
-        TxtMetaTitle.Text = TxtMetaAuthor.Text = TxtMetaDesc.Text =
-        TxtMetaCopyright.Text = TxtMetaYear.Text = TxtMetaComment.Text = "";
+        TxtMetaTitle.Text     = "";
+        TxtMetaAuthor.Text    = "";
+        TxtMetaDesc.Text      = "";
+        TxtMetaCopyright.Text = "";
+        TxtMetaYear.Text      = "";
+        TxtMetaComment.Text   = "";
     }
 
     private void BtnClose_Click(object sender, RoutedEventArgs e) => Close();
+
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.LeftButton == MouseButtonState.Pressed) DragMove();

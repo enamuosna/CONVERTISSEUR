@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using MXFConverter.Models;
 using MXFConverter.Services;
-using MessageBox = System.Windows.Forms.MessageBox;
+using MessageBox = System.Windows.MessageBox;
 
 namespace MXFConverter.Views;
 

@@ -10,8 +10,8 @@ using Microsoft.Win32;
 using MXFConverter.Models;
 using MXFConverter.Services;
 using Application = System.Windows.Application;
-using Button = System.Windows.Forms.Button;
-using DataFormats = System.Windows.Forms.DataFormats;
+using Button = System.Windows.Controls.Button;
+using DataFormats = System.Windows.DataFormats;
 using DragEventArgs = System.Windows.DragEventArgs;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -325,6 +325,26 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (item == null) return;
         var win = new MetadataWindow(item) { Owner = this };
         win.ShowDialog();
+    }
+
+    private void BtnPreview_Click(object sender, RoutedEventArgs e)
+    {
+        var item = Items.FirstOrDefault(i => i.Id == (sender as Button)?.Tag?.ToString());
+        if (item == null) return;
+
+        if (!System.IO.File.Exists(item.InputPath))
+        {
+            MessageBox.Show("Le fichier source est introuvable.", "Prévisualisation",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var win = new VideoPreviewWindow(item) { Owner = this };
+        win.ShowDialog();
+
+        // Si des points de rognage ont été définis, notifier
+        if (win.TrimApplied)
+            SetStatus($"✓ Rognage appliqué sur {item.FileName} : {win.ResultTrimStart:F1}s → {win.ResultTrimEnd:F1}s");
     }
 
     // ═══ FENÊTRES SECONDAIRES ═══

@@ -63,7 +63,6 @@
                             <TextBlock Text="v3.0" Foreground="{StaticResource AccentBlue}" FontSize="10"/>
                         </Border>
 
-                        <!-- Planificateur actif badge -->
                         <Border x:Name="ScheduleBadge" Background="#14532D" CornerRadius="4"
                                 Padding="8,2" Margin="10,0,0,0" Visibility="Collapsed">
                             <StackPanel Orientation="Horizontal">
@@ -76,21 +75,13 @@
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                         <Button Style="{StaticResource IconBtn}" Click="BtnStats_Click"
-                                Margin="0,0,4,0" ToolTip="Statistiques &amp; Rapports">
-                            &#x1F4CA;
-                        </Button>
+                                Margin="0,0,4,0" ToolTip="Statistiques &amp; Rapports">&#x1F4CA;</Button>
                         <Button Style="{StaticResource IconBtn}" Click="BtnHistory_Click"
-                                Margin="0,0,4,0" ToolTip="Historique">
-                            &#x1F4DC;
-                        </Button>
+                                Margin="0,0,4,0" ToolTip="Historique">&#x1F4DC;</Button>
                         <Button Style="{StaticResource IconBtn}" Click="BtnScheduler_Click"
-                                Margin="0,0,4,0" ToolTip="Planificateur">
-                            &#x23F0;
-                        </Button>
+                                Margin="0,0,4,0" ToolTip="Planificateur">&#x23F0;</Button>
                         <Button Style="{StaticResource IconBtn}" Click="BtnSettings_Click"
-                                Margin="0,0,10,0" ToolTip="Param&#232;tres">
-                            &#x2699;
-                        </Button>
+                                Margin="0,0,10,0" ToolTip="Param&#232;tres">&#x2699;</Button>
                         <Button x:Name="BtnMinimize" Content="&#x2500;" Width="36" Height="28"
                                 Background="Transparent" BorderThickness="0"
                                 Foreground="{StaticResource TextSecondary}" FontSize="12"
@@ -116,7 +107,7 @@
                                                 <ControlTemplate.Triggers>
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter Property="Background" Value="#C0392B"/>
-                                                        <Setter Property="Foreground"  Value="White"/>
+                                                        <Setter Property="Foreground" Value="White"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -142,8 +133,7 @@
                                 <TextBlock Text="Ajouter" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SecondaryButton}" Click="BtnAddFolder_Click"
-                                Margin="0,0,8,0">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnAddFolder_Click" Margin="0,0,8,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#x1F4C1;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Dossier" VerticalAlignment="Center"/>
@@ -190,8 +180,7 @@
                                 <TextBlock Text="Rapport" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
-                        <Button Style="{StaticResource SecondaryButton}" Click="BtnClearAll_Click"
-                                Margin="0,0,8,0">
+                        <Button Style="{StaticResource SecondaryButton}" Click="BtnClearAll_Click" Margin="0,0,8,0">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="&#x1F5D1;" FontSize="12" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <TextBlock Text="Vider" VerticalAlignment="Center"/>
@@ -263,15 +252,15 @@
                             <ColumnDefinition Width="65"/>
                             <ColumnDefinition Width="115"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="APE&#199;U"   Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="1" Text="FICHIER"      Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="2" Text="TAILLE"       Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="3" Text="DUR&#201;E"   Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="4" Text="FORMAT"       Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="5" Text="OPTIONS"      Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="6" Text="PROGRESSION"  Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="7" Text="ETA"          Style="{StaticResource Hdr}"/>
-                        <TextBlock Grid.Column="8" Text="ACTIONS"      Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="0" Text="APE&#199;U"  Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="1" Text="FICHIER"     Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="2" Text="TAILLE"      Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="3" Text="DUR&#201;E"  Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="4" Text="FORMAT"      Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="5" Text="OPTIONS"     Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="6" Text="PROGRESSION" Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="7" Text="ETA"         Style="{StaticResource Hdr}"/>
+                        <TextBlock Grid.Column="8" Text="ACTIONS"     Style="{StaticResource Hdr}"/>
                     </Grid>
 
                     <!-- Liste scrollable -->
@@ -280,10 +269,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:ConversionItem}">
                                     <Border Background="{StaticResource BgCard}"
-                                            CornerRadius="8" Margin="0,0,0,5"
-                                            Padding="6,8"
-                                            BorderBrush="{StaticResource BorderBrush}"
-                                            BorderThickness="1">
+                                            CornerRadius="8" Margin="0,0,0,5" Padding="6,8"
+                                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="90"/>
@@ -305,9 +292,9 @@
                                                     <!-- Image si disponible : visible quand HasThumbnail = true -->
                                                     <Image Source="{Binding Thumbnail}"
                                                            Stretch="UniformToFill"
+                                                           VerticalAlignment="Center"
                                                            Visibility="{Binding HasThumbnail,
-                                                               Converter={StaticResource BoolToVis}}"
-                                                           VerticalAlignment="Center"/>
+                                                               Converter={StaticResource BoolToVis}}"/>
                                                     <!-- Fallback icône : visible quand HasThumbnail = false -->
                                                     <TextBlock Text="&#x1F3AC;" FontSize="22"
                                                                HorizontalAlignment="Center"
@@ -346,7 +333,7 @@
                                                        VerticalAlignment="Center"
                                                        Foreground="{StaticResource TextSecondary}" FontSize="11"/>
 
-                                            <!-- Format + Qualité empilés -->
+                                            <!-- Format + Qualité -->
                                             <StackPanel Grid.Column="4" VerticalAlignment="Center">
                                                 <ComboBox Width="100" Margin="0,0,0,3"
                                                           ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Formats}"
@@ -362,15 +349,19 @@
                                             <StackPanel Grid.Column="5" VerticalAlignment="Center">
                                                 <Button Style="{StaticResource SecondaryButton}"
                                                         Padding="6,4" FontSize="10" Margin="0,0,0,3"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnAdvancedOptions_Click">
+                                                        Tag="{Binding Id}" Click="BtnAdvancedOptions_Click">
                                                     &#x2699; Options
                                                 </Button>
                                                 <Button Style="{StaticResource SecondaryButton}"
                                                         Padding="6,4" FontSize="10" Margin="0,0,0,3"
-                                                        Tag="{Binding Id}"
-                                                        Click="BtnMetadata_Click">
+                                                        Tag="{Binding Id}" Click="BtnMetadata_Click">
                                                     &#x1F3F7; M&#233;ta
+                                                </Button>
+                                                <Button Style="{StaticResource SecondaryButton}"
+                                                        Padding="6,4" FontSize="10" Margin="0,0,0,3"
+                                                        Background="#1A2540"
+                                                        Tag="{Binding Id}" Click="BtnPreview_Click">
+                                                    &#x25B6; Pr&#233;visu
                                                 </Button>
                                                 <TextBlock Text="{Binding Advanced.Resolution}"
                                                            Foreground="{StaticResource TextMuted}"
@@ -389,11 +380,9 @@
                                                                Foreground="{Binding StatusColor}"
                                                                Margin="5,0,0,0"/>
                                                 </StackPanel>
-                                                <ProgressBar Value="{Binding Progress}"
-                                                             Maximum="100" Margin="0,0,0,2"/>
+                                                <ProgressBar Value="{Binding Progress}" Maximum="100" Margin="0,0,0,2"/>
                                                 <TextBlock Text="{Binding StatusMessage}"
-                                                           FontSize="9"
-                                                           Foreground="{StaticResource TextMuted}"
+                                                           FontSize="9" Foreground="{StaticResource TextMuted}"
                                                            TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
 
@@ -403,8 +392,7 @@
                                                            Foreground="{StaticResource AccentBlue}"
                                                            FontSize="11" FontWeight="SemiBold"/>
                                                 <TextBlock Text="{Binding SpeedText}"
-                                                           Foreground="{StaticResource TextMuted}"
-                                                           FontSize="9"/>
+                                                           Foreground="{StaticResource TextMuted}" FontSize="9"/>
                                             </StackPanel>
 
                                             <!-- Actions -->
@@ -469,8 +457,7 @@
                                 </Border>
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <TextBlock x:Name="TxtGlobalProgress"
-                                           VerticalAlignment="Center"
+                                <TextBlock x:Name="TxtGlobalProgress" VerticalAlignment="Center"
                                            Foreground="{StaticResource TextSecondary}"
                                            FontSize="11" Margin="0,0,10,0"/>
                                 <ProgressBar x:Name="GlobalProgressBar" Width="200"
@@ -498,6 +485,7 @@
                     </StackPanel>
                 </Grid>
             </Border>
+
         </Grid>
     </Border>
 </Window>
