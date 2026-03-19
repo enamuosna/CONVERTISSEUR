@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
+    <!-- ===== APPLICATION ===== -->
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
@@ -8,11 +10,31 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyTitle>MXF Converter Pro</AssemblyTitle>
     <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+    <Company>MXF Converter</Company>
+    <Product>MXF Converter Pro</Product>
+    <Copyright>Copyright © 2025</Copyright>
     <RootNamespace>MXFConverter</RootNamespace>
+
+    <!-- ===== PUBLICATION (Méthode 3) ===== -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+
+    <!-- ===== OPTIMISATIONS ===== -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <TieredCompilation>true</TieredCompilation>
+
+    <!-- ===== WARNINGS À IGNORER ===== -->
+    <NoWarn>1701;1702;8002</NoWarn>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Xabe.FFmpeg"            Version="5.2.6" />
     <PackageReference Include="Xabe.FFmpeg.Downloader" Version="5.2.6" />
     <PackageReference Include="CommunityToolkit.Mvvm"  Version="8.3.2" />
   </ItemGroup>
+
 </Project>

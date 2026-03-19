@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MXFConverter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("3.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+052df8fdb2b9bc86f5e10ab8c16eabb0b7d33473")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0417f0504b5bc14592eda53ce138a1cf9b6363a0")]
 [assembly: System.Reflection.AssemblyProductAttribute("MXFConverter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MXF Converter Pro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("3.0.0.0")]
