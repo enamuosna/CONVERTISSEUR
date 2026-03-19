@@ -10,11 +10,11 @@ none
 false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\victus\Documents\CONVERTISSEUR\App.xaml
-10676099895
+11-778727528
 
-26-1114996128
+271866200012
 211326788619
-Themes\DarkTheme.xaml;Views\AdvancedOptionsWindow.xaml;Views\HistoryWindow.xaml;Views\MainWindow.xaml;Views\MetadataWindow.xaml;Views\NewProfileWindow.xaml;Views\ProfilesWindow.xaml;Views\SchedulerWindow.xaml;Views\SettingsWindow.xaml;Views\StatisticsWindow.xaml;
+Themes\DarkTheme.xaml;Views\AdvancedOptionsWindow.xaml;Views\HistoryWindow.xaml;Views\MainWindow.xaml;Views\MetadataWindow.xaml;Views\NewProfileWindow.xaml;Views\ProfilesWindow.xaml;Views\SchedulerWindow.xaml;Views\SettingsWindow.xaml;Views\StatisticsWindow.xaml;Views\VideoPreviewWindow.xaml;
 
 False
 

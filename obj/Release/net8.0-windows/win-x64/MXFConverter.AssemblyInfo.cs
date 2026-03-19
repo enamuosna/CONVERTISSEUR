@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright © 2025")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("3.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0417f0504b5bc14592eda53ce138a1cf9b6363a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c0f30971beff2462a94a28312ad2e619809079f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MXF Converter Pro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MXF Converter Pro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("3.0.0.0")]
